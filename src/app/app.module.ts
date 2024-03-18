@@ -10,10 +10,14 @@ import {
   provideTippyConfig,
   TippyDirective,
   tooltipVariation,
-  withContextMenuVariation
+  withContextMenuVariation,
 } from '@ngneat/helipopper';
 import { PlaygroundComponent } from './playground/playground.component';
 import { IsVisibleComponent } from './is-visible/isVisible.component';
+import { InjectionContextSeemsOffComponent } from './injection-context-seems-off/injection-context-seems-off.component';
+import { DirectiveProvidingValueDirective } from './component-using-value/directive-providing-value.directive';
+import { ComponentUsingValueComponent } from './component-using-value/component-using-value.component';
+import { AnotherComponentComponent } from './another-component/another-component.component';
 
 let zIndex = 99999;
 
@@ -22,7 +26,17 @@ function getZIndex() {
 }
 
 @NgModule({
-  declarations: [AppComponent, ExampleComponent, PlaygroundComponent, ExampleComponent, IsVisibleComponent],
+  declarations: [
+    AnotherComponentComponent,
+    ComponentUsingValueComponent,
+    AppComponent,
+    ExampleComponent,
+    PlaygroundComponent,
+    ExampleComponent,
+    IsVisibleComponent,
+    InjectionContextSeemsOffComponent,
+    DirectiveProvidingValueDirective,
+  ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, TippyDirective],
   providers: [
     provideTippyConfig({
@@ -35,16 +49,17 @@ function getZIndex() {
           ...popperVariation,
           appendTo: 'parent',
           arrow: false,
-          offset: [0, 0]
+          offset: [0, 0],
         },
         contextMenu: withContextMenuVariation(popperVariation),
         popperBorder: {
           ...popperVariation,
-          theme: 'light-border'
-        }
-      }
-    })
+          theme: 'light-border',
+        },
+      },
+    }),
   ],
-  bootstrap: [AppComponent]
+  exports: [ComponentUsingValueComponent],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
